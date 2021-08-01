@@ -135,11 +135,11 @@ public class CustomView2 extends View {
             t = 100;
         }
         if (posx >= (getWidth() - 60)) {
-            sounds.play(mActivity.wallhitsound,1,1,0,0,1);
+            sounds.play(mActivity.wallhitsound,1,1,1,0,1);
             velx = -velx;
         }
         if (posx <= 40) {
-            sounds.play(mActivity.wallhitsound,1,1,0,0,1);
+            sounds.play(mActivity.wallhitsound,1,1,1,0,1);
             velx = -velx;
         }
         if (pong.intersect(hit)) {
@@ -157,7 +157,7 @@ public class CustomView2 extends View {
             }
             velincrease += 20;
             vely = -vely;
-            sounds.play(mActivity.hitsound,1,1,0,0,1);
+            sounds.play(mActivity.hitsound,1,1,1,0,1);
             scorecount = scorecount + 1;
             mActivity.scoreval = scorecount;
             changecon = 1;
@@ -165,7 +165,7 @@ public class CustomView2 extends View {
 
         }
         if (posy >= getHeight()) {
-            sounds.play(mActivity.endgame,1,1,0,0,1);
+            sounds.play(mActivity.endgame,1,1,1,0,1);
             Intent intent = new Intent(C, Scoreboard.class);
             intent.putExtra("score",String.valueOf(scorecount));
             C.startActivity(intent);
@@ -187,7 +187,7 @@ public class CustomView2 extends View {
             }
             velincrease += 20;
             vely = -vely;
-            sounds.play(mActivity.wallhitsound,1,1,0,0,1);
+            sounds.play(mActivity.wallhitsound,1,1,1,0,1);
 
         }
         if (changecon == 1) {

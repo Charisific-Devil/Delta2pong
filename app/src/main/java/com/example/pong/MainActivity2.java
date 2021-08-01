@@ -27,6 +27,7 @@ public class MainActivity2 extends AppCompatActivity {
     public static SoundPool soundPool;
     public static int endgame, gameaudio, hitsound, wallhitsound;
     public MediaPlayer player;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class MainActivity2 extends AppCompatActivity {
         scoreview = (TextView) findViewById(R.id.score);
         scoreview.setText("SCORE: " + scoreval);
         customView = new CustomView2(this);
-        player = MediaPlayer.create(this,R.raw.gameaudio);
+
         player.start();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -54,8 +55,8 @@ public class MainActivity2 extends AppCompatActivity {
         endgame = soundPool.load(this, R.raw.endgame,1);
         hitsound = soundPool.load(this, R.raw.hit,1);
         wallhitsound = soundPool.load(this, R.raw.wallhit,1);
-
-
+        gameaudio = soundPool.load(this,R.raw.gameaudio,1);
+        soundPool.play(gameaudio,1,1,0,-1,1);
 
     }
 
@@ -65,4 +66,5 @@ public class MainActivity2 extends AppCompatActivity {
         soundPool.release();
         soundPool = null;
     }
+
 }
