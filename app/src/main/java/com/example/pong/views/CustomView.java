@@ -1,25 +1,22 @@
 package com.example.pong.views;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.pong.End_dialog;
 import com.example.pong.MainActivity;
 import com.example.pong.R;
 import com.example.pong.Score_Tracker;
@@ -27,9 +24,6 @@ import com.example.pong.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.Random;
-import java.util.TimerTask;
 
 import static java.lang.Thread.sleep;
 
@@ -57,6 +51,7 @@ public class CustomView extends View {
     public static Context C;
     public List<Integer> speeds = new ArrayList<>();
     public int ranspeed;
+
 
 
     public void setActivity(MainActivity activity) {
@@ -117,6 +112,7 @@ public class CustomView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         canvas.drawColor(0xFF000000);
         resetclr.setColor(0xFF000000);
         if (resetcon == 1) {
@@ -131,20 +127,27 @@ public class CustomView extends View {
             scorecount = 0;
         }
         if (posx >= (getWidth() - 60)) {
+            Wallhitsoundfunc();
             velx = -velx;
         }
         if (posx <= 40) {
+            Wallhitsoundfunc();
             velx = -velx;
         }
         if (pong.intersect(hit)) {
+            Plankhitsoundfunc();
             vely = -vely;
             scorecount = scorecount + 1;
             mActivity.scoreval = scorecount;
             changecon = 1;
+            posx = posx + velx;
+            posy = posy + vely;
+            postInvalidate();
 
 
         }
         if (posy >= getHeight()) {
+            endgamesoundfunc();
             vely = - vely;
             Intent intent = new Intent(C, Scoreboard.class);
             intent.putExtra("score",String.valueOf(scorecount));
@@ -153,6 +156,7 @@ public class CustomView extends View {
 
         }
         if (posy <= 230) {
+            Wallhitsoundfunc();
             vely = -vely;
 
         }
@@ -232,6 +236,18 @@ public class CustomView extends View {
         }
 
         return value;
+    }
+    public void Wallhitsoundfunc() {
+        MediaPlayer wallhitsound = MediaPlayer.create(C, R.raw.wallhit);
+        wallhitsound.start();
+    }
+    public void Plankhitsoundfunc() {
+        MediaPlayer plankhitsound = MediaPlayer.create(C, R.raw.hit);
+        plankhitsound.start();
+    }
+    public void endgamesoundfunc() {
+        MediaPlayer endgamesound = MediaPlayer.create(C, R.raw.endgame);
+        endgamesound.start();
     }
 
 

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Handler;
@@ -30,7 +31,6 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class CustomView2 extends View {
-    private SoundPool sounds;
     private Rect pong;
     private int velincrease;
     private int t;
@@ -56,6 +56,8 @@ public class CustomView2 extends View {
     public static Context C;
     public List<Integer> speeds = new ArrayList<>();
     public int ranspeed;
+    public static int endgame, gameaudio, hitsound, wallhitsound;
+    public MediaPlayer mediaPlayer;
 
 
 
@@ -70,6 +72,7 @@ public class CustomView2 extends View {
         C = context;
         this.scorecount = 0;
         this.resetcon = 0;
+
 
         init(null);
     }
@@ -118,7 +121,8 @@ public class CustomView2 extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        sounds = mActivity.soundPool;
+
+
         canvas.drawColor(0xFF000000);
         resetclr.setColor(0xFF000000);
         if (resetcon == 1) {
@@ -135,14 +139,15 @@ public class CustomView2 extends View {
             t = 100;
         }
         if (posx >= (getWidth() - 60)) {
-            sounds.play(mActivity.wallhitsound,1,1,1,0,1);
+            Wallhitsoundfunc();
             velx = -velx;
         }
         if (posx <= 40) {
-            sounds.play(mActivity.wallhitsound,1,1,1,0,1);
+            Wallhitsoundfunc();
             velx = -velx;
         }
         if (pong.intersect(hit)) {
+            Plankhitsoundfunc();
             if (velx > 0) {
                 velx = velx + velincrease;
             }
@@ -157,22 +162,23 @@ public class CustomView2 extends View {
             }
             velincrease += 20;
             vely = -vely;
-            sounds.play(mActivity.hitsound,1,1,1,0,1);
             scorecount = scorecount + 1;
             mActivity.scoreval = scorecount;
             changecon = 1;
+            posx = posx + velx;
+            posy = posy + vely;
+            postInvalidate();
 
 
         }
         if (posy >= getHeight()) {
-            sounds.play(mActivity.endgame,1,1,1,0,1);
+            endgamesoundfunc();
             Intent intent = new Intent(C, Scoreboard.class);
             intent.putExtra("score",String.valueOf(scorecount));
             C.startActivity(intent);
-
-
         }
         if (posy <= 230) {
+            Wallhitsoundfunc();
             if (velx > 0) {
                 velx = velx + velincrease;
             }
@@ -187,7 +193,6 @@ public class CustomView2 extends View {
             }
             velincrease += 20;
             vely = -vely;
-            sounds.play(mActivity.wallhitsound,1,1,1,0,1);
 
         }
         if (changecon == 1) {
@@ -268,12 +273,19 @@ public class CustomView2 extends View {
 
         return value;
     }
-
-    public void playSound (View v) {
-        switch (v.getId()) {
-
-        }
+    public void Wallhitsoundfunc() {
+        MediaPlayer wallhitsound = MediaPlayer.create(C, R.raw.wallhit);
+        wallhitsound.start();
     }
+    public void Plankhitsoundfunc() {
+        MediaPlayer plankhitsound = MediaPlayer.create(C, R.raw.hit);
+        plankhitsound.start();
+    }
+    public void endgamesoundfunc() {
+        MediaPlayer endgamesound = MediaPlayer.create(C, R.raw.endgame);
+        endgamesound.start();
+    }
+
 
 
 

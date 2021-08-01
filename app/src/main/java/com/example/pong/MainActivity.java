@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         scoreview = (TextView) findViewById(R.id.score);
         scoreview.setText("SCORE: " + scoreval);
         customView = new CustomView(this);
+        MediaPlayer gamesound = MediaPlayer.create(this, R.raw.gameaudio);
+        gamesound.setLooping(true);
+        gamesound.start();
 
 
 

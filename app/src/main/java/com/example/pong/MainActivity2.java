@@ -26,7 +26,7 @@ public class MainActivity2 extends AppCompatActivity {
     public static int scoreval = 0;
     public static SoundPool soundPool;
     public static int endgame, gameaudio, hitsound, wallhitsound;
-    public MediaPlayer player;
+    public static MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,29 +36,21 @@ public class MainActivity2 extends AppCompatActivity {
         scoreview = (TextView) findViewById(R.id.score);
         scoreview.setText("SCORE: " + scoreval);
         customView = new CustomView2(this);
+        MediaPlayer gamesound = MediaPlayer.create(this, R.raw.gameaudio);
+        gamesound.setLooping(true);
+        gamesound.start();
+    }
 
-        player.start();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams(15)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } else {
-            soundPool = new SoundPool( 15, AudioManager.STREAM_MUSIC,0);
-
-        }
-        endgame = soundPool.load(this, R.raw.endgame,1);
-        hitsound = soundPool.load(this, R.raw.hit,1);
-        wallhitsound = soundPool.load(this, R.raw.wallhit,1);
-        gameaudio = soundPool.load(this,R.raw.gameaudio,1);
-        soundPool.play(gameaudio,1,1,0,-1,1);
+    private void stop() {
+        player.release();
+        player = null;
 
     }
+    protected void onStop() {
+        super.onStop();
+        stop();
+    }
+
 
     @Override
     protected void onDestroy() {
