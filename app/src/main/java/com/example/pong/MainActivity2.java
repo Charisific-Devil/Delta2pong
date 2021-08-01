@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class MainActivity2 extends AppCompatActivity {
     public static int scoreval = 0;
     public static SoundPool soundPool;
     public static int endgame, gameaudio, hitsound, wallhitsound;
+    public MediaPlayer player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class MainActivity2 extends AppCompatActivity {
         scoreview = (TextView) findViewById(R.id.score);
         scoreview.setText("SCORE: " + scoreval);
         customView = new CustomView2(this);
+        player = MediaPlayer.create(this,R.raw.gameaudio);
+        player.start();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
