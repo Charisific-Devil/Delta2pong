@@ -2,35 +2,39 @@ package com.example.pong;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.pong.views.CustomView;
+import com.example.pong.Score_Tracker;
 
-import java.util.Timer;
+
 
 public class MainActivity extends AppCompatActivity {
     CustomView customView;
-    private TextView score;
-    public String scoreval;
-
+    public static TextView scoreview;
+    public static int scoreval = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        scoreview = (TextView) findViewById(R.id.score);
+        scoreview.setText("SCORE: " + scoreval);
         customView = new CustomView(this);
-        score = (TextView) findViewById(R.id.score);
+
 
 
     }
 
-    public void SetScore() {
-        scoreval = "SCORE:" + customView.scorecount;
-        score.setText(scoreval);
-    }
+
+
 
 
 }
